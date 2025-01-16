@@ -94,10 +94,5 @@ public class riderSteps {
          bookingStepsPO.fetchTicketDetails();
          Thread.sleep(2000);
     }
-    // Close the driver after the tests
-    @After
-    public void tearDown() {
-        driver.quit();
-    }
 
 }

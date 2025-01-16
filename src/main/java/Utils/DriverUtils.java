@@ -36,11 +36,4 @@ public class DriverUtils {
         return driver;
     }
 
-    /* Quit WebDriver and clean up instance
-    public static void quitDriver() {
-        if (driver != null) {
-            driver.quit();
-            driver = null;
-        }
-    }*/
 }

@@ -22,6 +22,8 @@ public class AgentPaymentGatewayPO {
     private By proceedToPay = By.xpath("//button[@class=\"secondryButton \"]");
     private By confirmButton = By.xpath("//button[@class=\"secondryButton proceedButton\"]");
     private By razorpayFrame = By.xpath("//iframe[@class='razorpay-checkout-frame']");
+    private By netbanking = By.xpath("(//div[@data-value=\"netbanking\"])[1]");
+    private By ICICIbank = By.xpath("(//div[@role='button'])[2]");
     private By successButton = By.xpath("//button[@class='success']");
 
     // Constructor
@@ -53,20 +55,22 @@ public class AgentPaymentGatewayPO {
 
             ElementUtils.actionClick(driver,confirmButton);
 
-            /*WebElement ConfirmButton = driver.findElement(confirmButton);
-            JavascriptExecutor js = (JavascriptExecutor) driver;
-            js.executeScript("arguments[0].click();", ConfirmButton);
-            logger.info("Clicked on Confirm button.");*/
-
+            Thread.sleep(3000);
 
 
             wait.until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(razorpayFrame));
             logger.info("Switched to Razorpay iframe.");
+            Thread.sleep(3000);
 
-            selectPaymentOptions("ICICI");
+            selectPaymentOptions();
+            Thread.sleep(3000);
 
-            wait.until(ExpectedConditions.elementToBeClickable(successButton)).click();
-            logger.info("Payment completed successfully.");
+
+            ElementUtils.switchToWindow(driver,1);
+            Thread.sleep(3000);
+            ElementUtils.actionClick(driver,successButton);
+            Thread.sleep(3000);
+
         } catch (Exception ex) {
             logger.error("Error during payment process.", ex);
             throw new RuntimeException("Payment process failed", ex);
@@ -74,17 +78,18 @@ public class AgentPaymentGatewayPO {
     }
 
     // Select Payment Options
-    private void selectPaymentOptions(String bankName) {
+    private void selectPaymentOptions() throws InterruptedException {
         try {
-            paymentMethodsPO.Netbanking_Method(driver, bankName);
+            ElementUtils.actionClick(driver, netbanking);
+            Thread.sleep(5000);
+
+            ElementUtils.actionClick(driver, ICICIbank);
+            Thread.sleep(2000);
+
         } catch (TimeoutException e) {
             logger.error("Error selecting payment options.", e);
             throw e;
         }
-    }
-
-    public void validate_the_booking_confirmation() {
-
     }
 
 }

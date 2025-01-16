@@ -93,19 +93,16 @@ public class agentSteps {
     @Then("I proceed to the payment gateway")
     public void i_proceed_to_the_payment_gateway() throws InterruptedException {
                agentPaymentGatewayPO.proceedToPaymentGateway();
-               Thread.sleep(6000);
+               Thread.sleep(3000);
     }
     @Then("I capture the ticket details")
     public void i_capture_the_ticket_details() throws InterruptedException, IOException, ParseException {
+             Thread.sleep(10000);
              ElementUtils.takeScreenshot(driver);
              Thread.sleep(2000);
              bookingStepsPO.fetchTicketDetails();
              Thread.sleep(1000);
     }
-    // Close the driver after the tests
-    @After
-    public void tearDown() {
-         driver.quit();
-    }
+
 
 }
